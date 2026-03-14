@@ -1,85 +1,76 @@
 <?php
-header('Content-Type: application/json');
 
 if (isset($_POST['course'], $_POST['credits'], $_POST['grade'])) {
 
-    $courses = $_POST['course'];
-    $credits = $_POST['credits'];
-    $grades  = $_POST['grade'];
+$courses = $_POST['course'];
+$credits = $_POST['credits'];
+$grades = $_POST['grade'];
 
-    $totalCredits = 0;
-    $totalPoints  = 0;
+$totalPoints = 0;
+$totalCredits = 0;
 
-    $tableHtml = '<table class="table table-bordered mt-3">
-    <thead class="thead-dark">
-        <tr>
-            <th>Course</th>
-            <th>Credits</th>
-            <th>Grade</th>
-        </tr>
-    </thead>
-    <tbody>';
+echo "<table>";
 
-    for ($i = 0; $i < count($courses); $i++) {
+echo "<tr>
+<th>Course</th>
+<th>Credits</th>
+<th>Grade</th>
+<th>Grade Points</th>
+</tr>";
 
-        $course = htmlspecialchars($courses[$i]);
-        $cr     = floatval($credits[$i]);
-        $gr     = floatval($grades[$i]);
+for ($i = 0; $i < count($courses); $i++) {
 
-        if ($cr <= 0) continue;
+$course = htmlspecialchars($courses[$i]);
 
-        $points = $cr * $gr;
+$cr = floatval($credits[$i]);
 
-        $totalPoints  += $points;
-        $totalCredits += $cr;
+$g = floatval($grades[$i]);
 
-        $tableHtml .= "<tr>
-            <td>$course</td>
-            <td>$cr</td>
-            <td>$gr</td>
-        </tr>";
-    }
+if ($cr <= 0) continue;
 
-    $tableHtml .= '</tbody></table>';
+$points = $cr * $g;
 
-    if ($totalCredits > 0) {
+$totalPoints += $points;
 
-        $gpa = $totalPoints / $totalCredits;
+$totalCredits += $cr;
 
-        if ($gpa >= 3.7) {
-            $interpretation = "Distinction";
-        } elseif ($gpa >= 3) {
-            $interpretation = "Merit";
-        } elseif ($gpa >= 2) {
-            $interpretation = "Pass";
-        } else {
-            $interpretation = "Fail";
-        }
+echo "<tr>
+<td>$course</td>
+<td>$cr</td>
+<td>$g</td>
+<td>$points</td>
+</tr>";
 
-        $message = "Your GPA is " . number_format($gpa, 2) . " ($interpretation)";
+}
 
-        echo json_encode([
-            'success' => true,
-            'gpa' => $gpa,
-            'message' => $message,
-            'tableHtml' => $tableHtml
-        ]);
+echo "</table>";
 
-    } else {
+if ($totalCredits > 0) {
 
-        echo json_encode([
-            'success' => false,
-            'message' => 'No valid courses entered.'
-        ]);
-    }
+$gpa = $totalPoints / $totalCredits;
+
+if ($gpa >= 3.7) {
+
+$interpretation = "Distinction";
+
+} elseif ($gpa >= 3.0) {
+
+$interpretation = "Merit";
+
+} elseif ($gpa >= 2.0) {
+
+$interpretation = "Pass";
 
 } else {
 
-    echo json_encode([
-        'success' => false,
-        'message' => 'Data not received.'
-    ]);
+$interpretation = "Fail";
+
 }
 
-exit;
+echo "<h2>Your GPA is " . number_format($gpa,2) . " ($interpretation)</h2>";
+
+}
+
+}
+
 ?>
