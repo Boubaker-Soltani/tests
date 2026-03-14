@@ -1,60 +1,102 @@
-function addCourse() {
+$(document).ready(function () {
 
-    var row = document.createElement('div');
+    // Add a new course row
+    $('#addCourse').click(function () {
+        var row = $('.course-row').first().clone();
+        row.find('input').val('');
+        row.append(
+            '<div class="col-auto">' +
+            '<button type="button" class="btn btn-danger remove-row">X</button>' +
+            '</div>'
+        );
+        $('#courses').append(row);
+    });
 
-    row.className = 'course-row';
+    // Remove a course row
+    $(document).on('click', '.remove-row', function () {
+        if ($('.course-row').length > 1) {
+            $(this).closest('.course-row').remove();
+        }
+    });
 
-    row.innerHTML =
-        '<label>Course:</label>' +
-        '<input type="text" name="course[]" placeholder="Mathematics" required>' +
+    // Submit via AJAX
+    $('#gpaForm').submit(function (e) {
+        e.preventDefault();
 
-        '<label>Credits:</label>' +
-        '<input type="number" name="credits[]" placeholder="3" min="1" required>' +
+        // Client-side validation
+        var valid = true;
 
-        '<label>Grade:</label>' +
-        '<select name="grade[]">' +
-        '<option value="4.0">A</option>' +
-        '<option value="3.0">B</option>' +
-        '<option value="2.0">C</option>' +
-        '<option value="1.0">D</option>' +
-        '<option value="0.0">F</option>' +
-        '</select>' +
+        $('[name="course[]"]').each(function () {
+            if ($(this).val().trim() === '') valid = false;
+        });
 
-        '<button type="button" onclick="this.parentNode.remove()">Remove</button>';
+        $('[name="credits[]"]').each(function () {
+            if (isNaN($(this).val()) || parseFloat($(this).val()) <= 0) {
+                valid = false;
+            }
+        });
 
-    document.getElementById('courses').appendChild(row);
-
-}
-
-function validateForm() {
-
-    var courses = document.querySelectorAll('[name="course[]"]');
-    var credits = document.querySelectorAll('[name="credits[]"]');
-
-    for (var i = 0; i < courses.length; i++) {
-
-        if (courses[i].value === "") {
-
-            alert("All course fields are required");
-
-            return false;
-
+        if (!valid) {
+            $('#result').html(
+                '<div class="alert alert-warning">' +
+                'Please enter valid values in all fields.' +
+                '</div>'
+            );
+            return;
         }
 
-    }
+        $.ajax({
+            url: 'calculate.php',
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
 
-    for (var j = 0; j < credits.length; j++) {
+            success: function (response) {
 
-        if (isNaN(credits[j].value) || credits[j].value <= 0) {
+                if (response.success) {
 
-            alert("Credits must be positive numbers");
+                    var alertClass = 'alert-info';
 
-            return false;
+                    if (response.gpa >= 3.7) {
+                        alertClass = 'alert-success';
+                    }
+                    else if (response.gpa >= 3.0) {
+                        alertClass = 'alert-info';
+                    }
+                    else if (response.gpa >= 2.0) {
+                        alertClass = 'alert-warning';
+                    }
+                    else {
+                        alertClass = 'alert-danger';
+                    }
 
-        }
+                    $('#result').html(
+                        '<div class="alert ' + alertClass + '">' +
+                        response.message +
+                        '</div>' +
+                        response.tableHtml
+                    );
 
-    }
+                } else {
 
-    return true;
+                    $('#result').html(
+                        '<div class="alert alert-danger">' +
+                        response.message +
+                        '</div>'
+                    );
 
-}
+                }
+            },
+
+            error: function () {
+                $('#result').html(
+                    '<div class="alert alert-danger">' +
+                    'Server error occurred.' +
+                    '</div>'
+                );
+            }
+        });
+
+    });
+
+});
