@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ملخص قواعد البيانات - للمراجعة السريعة</title>
+
+<style>
+body{
+    font-family: Tahoma, Arial;
+    background:#f4f6f9;
+    color:#222;
+    line-height:1.9;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    background:#1e3a5f;
+    color:white;
+    padding:15px;
+    border-radius:10px;
+}
+
+h2{
+    background:#2f5d8a;
+    color:white;
+    padding:10px;
+    border-radius:8px;
+}
+
+h3{
+    color:#1e3a5f;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+table,th,td{
+    border:1px solid #999;
+}
+
+th{
+    background:#dbeafe;
+}
+
+th,td{
+    padding:10px;
+    text-align:center;
+}
+
+code{
+    background:#eee;
+    padding:3px 6px;
+    border-radius:5px;
+    color:#c7254e;
+}
+
+.note{
+    background:#fff3cd;
+    padding:10px;
+    border-right:5px solid orange;
+    border-radius:5px;
+}
+
+.important{
+    background:#ffdede;
+    padding:10px;
+    border-right:5px solid red;
+    border-radius:5px;
+}
+
+ul{
+    padding-right:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📘 ملخص قواعد البيانات - مراجعة الامتحان</h1>
+
+<!-- الفصل الأول -->
+<div class="section">
+
+<h2>🟢 الفصل الأول : مقدمة قواعد البيانات</h2>
+
+<h3>✅ تعريف قاعدة البيانات</h3>
+<p>
+قاعدة البيانات هي مجموعة منظمة ومترابطة من البيانات يتم تخزينها بطريقة تسمح بالوصول إليها وإدارتها بسهولة.
+</p>
+
+<h3>❌ مشاكل نظام الملفات التقليدي</h3>
+
+<ul>
+<li>تكرار البيانات Redundancy</li>
+<li>صعوبة التحديث</li>
+<li>عدم الاتساق Inconsistency</li>
+<li>اعتماد البرامج على البيانات</li>
+</ul>
+
+<h3>✅ أهداف قواعد البيانات</h3>
+
+<ul>
+<li>تقليل التكرار</li>
+<li>مشاركة البيانات</li>
+<li>سلامة البيانات</li>
+<li>الأمان</li>
+<li>سهولة الوصول</li>
+</ul>
+
+<h3>🧠 DBMS / SGBD</h3>
+
+<p>
+هو نظام إدارة قواعد البيانات مثل:
+</p>
+
+<ul>
+<li>MySQL</li>
+<li>Oracle</li>
+<li>SQL Server</li>
+</ul>
+
+<h3>📚 مستويات ANSI/SPARC</h3>
+
+<table>
+<tr>
+<th>المستوى</th>
+<th>الوصف</th>
+</tr>
+
+<tr>
+<td>External</td>
+<td>ما يراه المستخدم</td>
+</tr>
+
+<tr>
+<td>Conceptual</td>
+<td>الهيكل العام للبيانات</td>
+</tr>
+
+<tr>
+<td>Internal</td>
+<td>التخزين الفيزيائي</td>
+</tr>
+
+</table>
+
+<h3>📊 نماذج قواعد البيانات</h3>
+
+<table>
+<tr>
+<th>النموذج</th>
+<th>الخصائص</th>
+</tr>
+
+<tr>
+<td>هرمي</td>
+<td>على شكل شجرة</td>
+</tr>
+
+<tr>
+<td>شبكي</td>
+<td>عدة علاقات</td>
+</tr>
+
+<tr>
+<td>علائقي</td>
+<td>يعتمد على الجداول</td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- الفصل الثاني -->
+<div class="section">
+
+<h2>🟡 الفصل الثاني : النموذج العلائقي</h2>
+
+<h3>📌 مفاهيم أساسية</h3>
+
+<table>
+<tr>
+<th>المفهوم</th>
+<th>المعنى</th>
+</tr>
+
+<tr>
+<td>Relation</td>
+<td>جدول</td>
+</tr>
+
+<tr>
+<td>Tuple</td>
+<td>صف</td>
+</tr>
+
+<tr>
+<td>Attribute</td>
+<td>عمود</td>
+</tr>
+
+<tr>
+<td>Domain</td>
+<td>مجموعة القيم الممكنة</td>
+</tr>
+
+</table>
+
+<h3>🔑 المفاتيح</h3>
+
+<ul>
+<li>Primary Key : مفتاح أساسي</li>
+<li>Candidate Key : مفتاح مرشح</li>
+<li>Foreign Key : مفتاح أجنبي</li>
+</ul>
+
+<h3>🧠 الاعتماد الوظيفي</h3>
+
+<p>
+إذا كانت:
+</p>
+
+<code>X → Y</code>
+
+<p>
+فإن معرفة X تسمح بمعرفة Y
+</p>
+
+<h3>📌 أنواع الاعتماد</h3>
+
+<ul>
+<li>اعتماد كامل</li>
+<li>اعتماد جزئي</li>
+<li>اعتماد انتقالي</li>
+</ul>
+
+<h3>🔥 التطبيع Normalisation</h3>
+
+<h3>1NF</h3>
+<p>كل خلية تحتوي قيمة واحدة فقط</p>
+
+<h3>2NF</h3>
+<p>كل خاصية تعتمد كليًا على المفتاح</p>
+
+<h3>3NF</h3>
+<p>لا يوجد اعتماد انتقالي</p>
+
+<h3>BCNF</h3>
+<p>كل اعتماد وظيفي مصدره مفتاح</p>
+
+<div class="important">
+⚠️ الهدف من التطبيع:
+تقليل التكرار وإزالة الشذوذات.
+</div>
+
+</div>
+
+<!-- الفصل الثالث -->
+<div class="section">
+
+<h2>🔵 الفصل الثالث : الجبر العلائقي و SQL</h2>
+
+<h3>📌 العمليات الأساسية</h3>
+
+<table>
+
+<tr>
+<th>العملية</th>
+<th>الرمز</th>
+<th>المعنى</th>
+</tr>
+
+<tr>
+<td>Projection</td>
+<td>Π</td>
+<td>اختيار أعمدة</td>
+</tr>
+
+<tr>
+<td>Selection</td>
+<td>σ</td>
+<td>اختيار صفوف بشرط</td>
+</tr>
+
+<tr>
+<td>Union</td>
+<td>⋃</td>
+<td>اتحاد</td>
+</tr>
+
+<tr>
+<td>Difference</td>
+<td>-</td>
+<td>فرق</td>
+</tr>
+
+<tr>
+<td>Intersection</td>
+<td>∩</td>
+<td>تقاطع</td>
+</tr>
+
+<tr>
+<td>Produit Cartésien</td>
+<td>×</td>
+<td>جداء ديكارتي</td>
+</tr>
+
+<tr>
+<td>Join</td>
+<td>⋈</td>
+<td>ربط</td>
+</tr>
+
+</table>
+
+<h3>🔥 الفرق بين Projection و Selection</h3>
+
+<table>
+
+<tr>
+<th>Projection</th>
+<th>Selection</th>
+</tr>
+
+<tr>
+<td>حذف أعمدة</td>
+<td>حذف صفوف</td>
+</tr>
+
+<tr>
+<td>Π</td>
+<td>σ</td>
+</tr>
+
+</table>
+
+<h3>🧠 JOIN</h3>
+
+<p>
+JOIN = Produit Cartésien + Selection
+</p>
+
+<h3>📌 أنواع JOIN</h3>
+
+<ul>
+<li>Join classique</li>
+<li>Natural Join</li>
+<li>Semi Join</li>
+</ul>
+
+<h3>📌 Division</h3>
+
+<p>
+تستخدم للإجابة عن أسئلة "الكل".
+</p>
+
+<p>
+مثال:
+الطلاب الذين اجتازوا جميع المواد.
+</p>
+
+</div>
+
+<!-- SQL -->
+<div class="section">
+
+<h2>💻 أهم أوامر SQL</h2>
+
+<h3>✅ SELECT</h3>
+
+<code>
+SELECT * FROM EMP;
+</code>
+
+<h3>✅ WHERE</h3>
+
+<code>
+SELECT * FROM EMP WHERE SALARY > 1000;
+</code>
+
+<h3>✅ DISTINCT</h3>
+
+<code>
+SELECT DISTINCT JOB FROM EMP;
+</code>
+
+<h3>✅ ORDER BY</h3>
+
+<code>
+SELECT * FROM EMP ORDER BY SALARY DESC;
+</code>
+
+<h3>✅ LIKE</h3>
+
+<table>
+
+<tr>
+<th>النمط</th>
+<th>المعنى</th>
+</tr>
+
+<tr>
+<td>'A%'</td>
+<td>يبدأ بـ A</td>
+</tr>
+
+<tr>
+<td>'%A'</td>
+<td>ينتهي بـ A</td>
+</tr>
+
+<tr>
+<td>'%A%'</td>
+<td>يحتوي A</td>
+</tr>
+
+<tr>
+<td>'_A'</td>
+<td>حرف ثم A</td>
+</tr>
+
+</table>
+
+<h3>✅ BETWEEN</h3>
+
+<code>
+SELECT * FROM EMP
+WHERE SALARY BETWEEN 1000 AND 3000;
+</code>
+
+<h3>✅ IN</h3>
+
+<code>
+SELECT * FROM EMP
+WHERE DEPT IN (10,20);
+</code>
+
+<h3>✅ EXISTS</h3>
+
+<code>
+SELECT *
+FROM ETUDIANT E
+WHERE EXISTS (
+SELECT *
+FROM INSCRIPTION I
+WHERE E.ID = I.ID
+);
+</code>
+
+<h3>✅ NOT EXISTS</h3>
+
+<code>
+SELECT *
+FROM ETUDIANT E
+WHERE NOT EXISTS (
+SELECT *
+FROM INSCRIPTION I
+WHERE E.ID = I.ID
+);
+</code>
+
+</div>
+
+<!-- GROUP -->
+<div class="section">
+
+<h2>📊 الدوال التجميعية</h2>
+
+<table>
+
+<tr>
+<th>الدالة</th>
+<th>المعنى</th>
+</tr>
+
+<tr>
+<td>COUNT()</td>
+<td>عدد الصفوف</td>
+</tr>
+
+<tr>
+<td>AVG()</td>
+<td>المتوسط</td>
+</tr>
+
+<tr>
+<td>SUM()</td>
+<td>المجموع</td>
+</tr>
+
+<tr>
+<td>MIN()</td>
+<td>أصغر قيمة</td>
+</tr>
+
+<tr>
+<td>MAX()</td>
+<td>أكبر قيمة</td>
+</tr>
+
+</table>
+
+<h3>✅ GROUP BY</h3>
+
+<code>
+SELECT Dept, AVG(Salary)
+FROM EMP
+GROUP BY Dept;
+</code>
+
+<h3>✅ HAVING</h3>
+
+<code>
+SELECT Dept, AVG(Salary)
+FROM EMP
+GROUP BY Dept
+HAVING AVG(Salary) > 2000;
+</code>
+
+<div class="note">
+📌 WHERE تطبق قبل GROUP BY
+<br>
+📌 HAVING تطبق بعد GROUP BY
+</div>
+
+</div>
+
+<!-- أسئلة سريعة -->
+<div class="section">
+
+<h2>🔥 أهم الأفكار للامتحان</h2>
+
+<ul>
+<li>الفرق بين Projection و Selection</li>
+<li>فهم JOIN جيدًا</li>
+<li>فهم Division</li>
+<li>التطبيع 1NF 2NF 3NF</li>
+<li>الاعتماد الوظيفي</li>
+<li>LIKE و EXISTS</li>
+<li>GROUP BY و HAVING</li>
+<li>التحويل بين Algebra و SQL</li>
+</ul>
+
+</div>
+
+<!-- النهاية -->
+<div class="section">
+
+<h2>⭐ نصائح للمراجعة</h2>
+
+<ul>
+<li>احفظ الرموز الجبرية جيدًا</li>
+<li>ركز على SQL أكثر شيء</li>
+<li>تدرب على JOIN و LIKE</li>
+<li>افهم التطبيع بدل الحفظ</li>
+<li>حل تمارين Functional Dependency</li>
+</ul>
+
+</div>
+
+</body>
+</html>
